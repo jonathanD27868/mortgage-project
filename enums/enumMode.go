@@ -1,6 +1,8 @@
-package enumMode
+package enums
 
-import "errors"
+import (
+	"log"
+)
 
 type Mode struct {
 	slug string
@@ -16,12 +18,13 @@ func (m Mode) String() string {
 	return m.slug
 }
 
-func FromString(s string) (Mode, error) {
+func FromString(s string) Mode {
 	switch s {
 	case Dev.slug:
-		return Dev, nil
+		return Dev
 	case Prod.slug:
-		return Prod, nil
+		return Prod
 	}
-	return Unknown, errors.New("unknown mode: " + s)
+	log.Fatalf("Unknwon mode in the app's config file: %s", s)
+	return Unknown
 }
