@@ -5,7 +5,7 @@ import (
 	enumMode "mortgage-project/enums/emumMode"
 )
 
-type config struct {
+type configuration struct {
 	mode enumMode.Mode
 	db   db.DBConfig
 }
