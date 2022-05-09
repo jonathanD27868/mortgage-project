@@ -6,7 +6,7 @@ import (
 )
 
 func init() {
-	config.Config = config.New()
+	config.Config = config.New("db/db-dev.env.json", "config/config.env.json")
 }
 
 func main() {
@@ -19,6 +19,8 @@ func main() {
 func test1Select() {
 	fmt.Println("\n==> test1Select")
 	db := config.Config.DB
+	mode := config.Config.Mode.String()
+	fmt.Println(mode)
 
 	// Execute the query
 	results, err := db.Query("SELECT id, price FROM houses")

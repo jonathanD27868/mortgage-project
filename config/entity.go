@@ -9,7 +9,7 @@ import (
 var Config configuration
 
 type configuration struct {
-	AppConfig AppConfig
+	AppConfig
 	db.DBConfig
 }
 

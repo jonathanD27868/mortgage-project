@@ -8,14 +8,14 @@ import (
 	"os"
 )
 
-func New() configuration {
+func New(dbConfigFile, appConfigFile string) configuration {
 	config := configuration{}
 
 	// get db connection
-	config.DB = db.New()
+	config.DB = db.New(dbConfigFile)
 
 	// get global configs
-	config.AppConfig = NewAppConfig("config/config.env.json")
+	config.AppConfig = NewAppConfig(appConfigFile)
 
 	return config
 }

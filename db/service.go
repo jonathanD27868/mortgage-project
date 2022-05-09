@@ -7,12 +7,14 @@ import (
 	"log"
 	"os"
 
+	"mortgage-project/errors"
+
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 )
 
-func New() *sql.DB {
-	dbConfig := getDBConfig("db/db-dev.env.json")
+func New(dbConfigFile string) *sql.DB {
+	dbConfig := getDBConfig(dbConfigFile)
 	return getConnection(dbConfig)
 }
 
@@ -25,7 +27,7 @@ func getConnection(dbConfig DBConfigDTO) *sql.DB {
 	case "postgres":
 		return getPostgresConn(dbConfig)
 	}
-	log.Fatalf("No implementation for the engine: %s", dbConfig.Engine)
+	log.Fatalf(errors.ErrDBEngineInvalid.Error(), dbConfig.Engine)
 	return nil
 }
 
@@ -35,14 +37,14 @@ func getDBConfig(filename string) DBConfigDTO {
 
 	file, err := os.Open(filename)
 	if err != nil {
-		log.Fatalf("Error while opening the db's config file: %s", err.Error())
+		log.Fatalf(errors.ErrOpenFile.Error(), filename, err.Error())
 	}
 	defer file.Close()
 
 	decoder := json.NewDecoder(file)
 	err = decoder.Decode(&config)
 	if err != nil {
-		log.Fatalf("Error while decoding the db's JSON config file : %s", err.Error())
+		log.Fatalf(errors.ErrJSONDecoding.Error(), err.Error())
 	}
 
 	return config
