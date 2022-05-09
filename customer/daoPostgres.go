@@ -20,7 +20,7 @@ func (d daoPostgres) getCustomer(id int) *Customer {
 
 	query := `
 	SELECT first_name, last_name, credit_score, salary, downpayment, house_id FROM customers
-	WHERE id=?
+	WHERE id=$1
 	`
 
 	err := db.QueryRow(query, id).
