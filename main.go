@@ -4,47 +4,14 @@ import (
 	"fmt"
 	"mortgage-project/config"
 	"mortgage-project/globals"
+	"mortgage-project/house"
 )
 
 func init() {
-	globals.Config = config.New("config/config.env.json", "db/db-dev.env.json")
+	globals.Config = config.New("config/config.env.json", "db/db-prod.env.json")
 }
 
 func main() {
-	fmt.Println(globals.Config)
-	fmt.Println("ok")
-	test1Select()
-
-}
-
-func test1Select() {
-	fmt.Println("\n==> test1Select")
-	db := globals.Config.GetDB()
-	mode := globals.Config.GetMode()
-	fmt.Println(mode)
-
-	// Execute the query
-	results, err := db.Query("SELECT id, price FROM houses")
-	checkErr(err)
-
-	for results.Next() {
-		var house struct {
-			id              int
-			price           int
-			min_downpayment int
-			property_tax    int
-			maintenance_fee int
-		}
-
-		err = results.Scan(&house.id, &house.price)
-		checkErr(err)
-
-		fmt.Printf("%d\t%d \n", house.id, house.price)
-	}
-}
-
-func checkErr(err error) {
-	if err != nil {
-		panic(err.Error())
-	}
+	houseController := house.GetHouseController()
+	fmt.Println(houseController.GetHouse(4))
 }

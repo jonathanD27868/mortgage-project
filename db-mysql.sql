@@ -1,26 +1,30 @@
+CREATE DATABASE IF NOT EXISTS mortgage_project;
+USE mortgage_project;
+CREATE USER IF NOT EXISTS jonathandb IDENTIFIED BY 'jonathandb';
+GRANT ALL ON mortgage_project.* TO jonathandb;
+
 CREATE TABLE IF NOT EXISTS houses (
-  id SERIAL PRIMARY KEY,
-  price INTEGER NOT NULL,
-  min_downpayment INTEGER NOT NULL,
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  price INT NOT NULL,
+  min_downpayment INT NOT NULL,
   property_tax SMALLINT NOT NULL,
-  maintenance_fee SMALLINT NOT NULL
+  mainteance_fee SMALLINT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS customers (
-  id SERIAL PRIMARY KEY,
+  id INT AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50) NOT NULL,
   credit_score SMALLINT NOT NULL,
-  salary INTEGER NOT NULL,
-  downpayment INTEGER NOT NULL,
-  house_id INTEGER NOT NULL,
+  salary INT NOT NULL,
+  downpayment INT NOT NULL,
+  house_id INT NOT NULL,
   CONSTRAINT fk_house_id 
     FOREIGN KEY (house_id) 
-      REFERENCES houses(id) 
-        ON DELETE SET NULL
+      REFERENCES houses(id)
 );
 
-INSERT INTO houses (price, min_downpayment, property_tax, maintenance_fee) VALUES
+INSERT INTO houses (price, min_downpayment, property_tax, mainteance_fee) VALUES
   (2000000, 400000, 9200, 1800),
   (1750000, 350000, 8050, 1800),
   (1500000, 300000, 6900, 1800),
