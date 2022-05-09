@@ -1,5 +1,5 @@
 package customer
 
 type customerDAOInterface interface {
-	getCustomer(id int) Customer
+	getCustomer(id int) *Customer
 }

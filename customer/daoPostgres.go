@@ -7,7 +7,7 @@ import (
 
 type daoPostgres struct{}
 
-func (d daoPostgres) getCustomer(id int) Customer {
+func (d daoPostgres) getCustomer(id int) *Customer {
 	db := globals.Config.GetDB()
 	var (
 		firstName   string
@@ -37,5 +37,5 @@ func (d daoPostgres) getCustomer(id int) Customer {
 		houseID,
 	}
 
-	return c
+	return &c
 }
