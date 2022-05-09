@@ -8,14 +8,14 @@ import (
 	"os"
 )
 
-func New(dbConfigFile, appConfigFile string) configuration {
-	config := configuration{}
-
-	// get db connection
-	config.DB = db.New(dbConfigFile)
+func New(appConfigFile, dbConfigFile string) Configuration {
+	config := Configuration{}
 
 	// get global configs
 	config.AppConfig = NewAppConfig(appConfigFile)
+
+	// get db connection
+	config.DBConfig = db.New(dbConfigFile)
 
 	return config
 }
@@ -25,14 +25,14 @@ func NewAppConfig(filename string) AppConfig {
 
 	file, err := os.Open(filename)
 	if err != nil {
-		log.Fatalf("Error while opening the app's config file: %s", err.Error())
+		log.Fatalln("Error while opening the app's config file")
 	}
 	defer file.Close()
 
 	decoder := json.NewDecoder(file)
 	err = decoder.Decode(&configDTO)
 	if err != nil {
-		log.Fatalf("Error while decoding the app's JSON config file : %s", err.Error())
+		log.Fatalln("Error while decoding the app's JSON config file")
 	}
 
 	config := AppConfig{

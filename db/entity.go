@@ -12,5 +12,6 @@ type DBConfigDTO struct {
 }
 
 type DBConfig struct {
-	DB *sql.DB
+	DB     *sql.DB
+	Engine string
 }

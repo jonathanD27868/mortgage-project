@@ -3,14 +3,15 @@ package main
 import (
 	"fmt"
 	"mortgage-project/config"
+	"mortgage-project/globals"
 )
 
 func init() {
-	config.Config = config.New("db/db-dev.env.json", "config/config.env.json")
+	globals.Config = config.New("config/config.env.json", "db/db-dev.env.json")
 }
 
 func main() {
-	fmt.Println(config.Config)
+	fmt.Println(globals.Config)
 	fmt.Println("ok")
 	test1Select()
 
@@ -18,8 +19,8 @@ func main() {
 
 func test1Select() {
 	fmt.Println("\n==> test1Select")
-	db := config.Config.DB
-	mode := config.Config.Mode.String()
+	db := globals.Config.GetDB()
+	mode := globals.Config.GetMode()
 	fmt.Println(mode)
 
 	// Execute the query

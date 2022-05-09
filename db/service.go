@@ -7,15 +7,16 @@ import (
 	"log"
 	"os"
 
-	"mortgage-project/errors"
-
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 )
 
-func New(dbConfigFile string) *sql.DB {
-	dbConfig := getDBConfig(dbConfigFile)
-	return getConnection(dbConfig)
+func New(dbConfigFile string) DBConfig {
+	var dbConfig DBConfig
+	dbConfigDTO := getDBConfig(dbConfigFile)
+	dbConfig.DB = getConnection(dbConfigDTO)
+	dbConfig.Engine = dbConfigDTO.Engine
+	return dbConfig
 }
 
 // getConnection get the correct db's connection according to the Engine
@@ -27,7 +28,7 @@ func getConnection(dbConfig DBConfigDTO) *sql.DB {
 	case "postgres":
 		return getPostgresConn(dbConfig)
 	}
-	log.Fatalf(errors.ErrDBEngineInvalid.Error(), dbConfig.Engine)
+	log.Fatalf("No implementation for the engine: %s", dbConfig.Engine)
 	return nil
 }
 
@@ -37,14 +38,14 @@ func getDBConfig(filename string) DBConfigDTO {
 
 	file, err := os.Open(filename)
 	if err != nil {
-		log.Fatalf(errors.ErrOpenFile.Error(), filename, err.Error())
+		log.Fatalf("Error while opening %s", filename)
 	}
 	defer file.Close()
 
 	decoder := json.NewDecoder(file)
 	err = decoder.Decode(&config)
 	if err != nil {
-		log.Fatalf(errors.ErrJSONDecoding.Error(), err.Error())
+		log.Fatalf("Error while decoding %s", err.Error())
 	}
 
 	return config
