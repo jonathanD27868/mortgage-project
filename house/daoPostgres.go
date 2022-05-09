@@ -7,7 +7,7 @@ import (
 
 type daoPostgres struct{}
 
-func (d daoPostgres) getHouse(id int) House {
+func (d daoPostgres) getHouse(id int) *House {
 	db := globals.Config.GetDB()
 	var (
 		price           int
@@ -29,5 +29,5 @@ func (d daoPostgres) getHouse(id int) House {
 		maintenance_fee,
 	}
 
-	return h
+	return &h
 }
