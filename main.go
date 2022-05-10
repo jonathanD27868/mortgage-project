@@ -7,9 +7,15 @@ import (
 	"mortgage-project/globals"
 	"mortgage-project/house"
 	"mortgage-project/mortgage"
+	"runtime"
 )
 
 func init() {
+	maxCPU := runtime.NumCPU()
+	cpuUsed := 4
+	runtime.GOMAXPROCS(cpuUsed)
+	fmt.Printf("Number of CPUs (Total=%d - Used=%d) \n", maxCPU, cpuUsed)
+
 	globals.Config = config.New("config/config.env.json", "db/db-dev.env.json")
 }
 
