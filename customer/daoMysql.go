@@ -3,6 +3,7 @@ package customer
 import (
 	"mortgage-project/errors"
 	"mortgage-project/globals"
+	"mortgage-project/helpers"
 )
 
 type daoMysql struct{}
@@ -25,7 +26,7 @@ func (d daoMysql) getCustomer(id int) *Customer {
 
 	err := db.QueryRow(query, id).
 		Scan(&firstName, &lastName, &creditScore, &salary, &downPayment, &houseID)
-	checkErr(err, errors.ErrDBQueryExec)
+	helpers.CheckErr(err, errors.ErrDBQueryExec)
 
 	c := Customer{
 		id,
@@ -49,12 +50,12 @@ func (d daoMysql) getAllIDs() []int {
 
 	query := `select id from customers order by id`
 	rows, err := db.Query(query)
-	checkErr(err, errors.ErrDBQueryExec)
+	helpers.CheckErr(err, errors.ErrDBQueryExec)
 	defer rows.Close()
 
 	for rows.Next() {
 		err := rows.Scan(&id)
-		checkErr(err, errors.ErrDBQueryExec)
+		helpers.CheckErr(err, errors.ErrDBQueryExec)
 
 		ids = append(ids, id)
 	}
@@ -78,7 +79,7 @@ func (d daoMysql) getAllCustomers() []*Customer {
 
 	query := `select * from customers order by id`
 	rows, err := db.Query(query)
-	checkErr(err, errors.ErrDBQueryExec)
+	helpers.CheckErr(err, errors.ErrDBQueryExec)
 	defer rows.Close()
 
 	for rows.Next() {

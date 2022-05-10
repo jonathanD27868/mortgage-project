@@ -8,8 +8,8 @@ type Decision struct {
 
 var (
 	UnknownDecision = Decision{""}
-	Approved        = Decision{"approved"}
-	Rejected        = Decision{"rejected"}
+	Approved        = Decision{"APPROVED"}
+	Rejected        = Decision{"**REJECTED**"}
 )
 
 func (d Decision) String() string {

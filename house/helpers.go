@@ -2,8 +2,6 @@ package house
 
 import (
 	"log"
-	"mortgage-project/enums"
-	"mortgage-project/errors"
 	"mortgage-project/globals"
 )
 
@@ -26,15 +24,4 @@ func daoFactory(e string) houseDAOInterface {
 		log.Fatalf("the engine %s is not implemented", e)
 	}
 	return i
-}
-
-func checkErr(err error, msg errors.ModelError) {
-	if err == nil {
-		return
-	}
-	if globals.Config.GetMode() != enums.Dev.String() {
-		log.Fatalln(msg.Error())
-	} else {
-		log.Fatalln(msg.Error(), "=> ", err)
-	}
 }

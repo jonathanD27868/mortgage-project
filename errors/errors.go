@@ -37,6 +37,10 @@ var (
 	ErrDBQueryExec ModelError = "Oups something went wrong: Query problem"
 
 	ErrDBRowFetching ModelError = "Oups something went wrong: Row fetching problem"
+
+	/********* FILES ERRORS *********/
+	ErrorFileOpening ModelError = "Oups can't open this file: Opening file problem"
+	ErrorFileWriting ModelError = "Oups can't write to the file: Writing file problem"
 )
 
 type ModelError string

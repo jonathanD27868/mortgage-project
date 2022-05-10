@@ -1,10 +1,13 @@
 package mortgage
 
 import (
+	"fmt"
 	"mortgage-project/customer"
 	"mortgage-project/enums"
+	"mortgage-project/errors"
+	"mortgage-project/helpers"
 	"mortgage-project/house"
-	"sync"
+	"os"
 )
 
 type mortgageService struct {
@@ -50,24 +53,29 @@ func (ms mortgageService) decisionMaker(c *customer.Customer) *mortgageDecision 
 func (ms mortgageService) getApprovalDecisionAllCustomers() []*mortgageDecision {
 	customers := ms.c.GetAllCustomers()
 	var decisions []*mortgageDecision
-	var wg sync.WaitGroup
-	var mu sync.Mutex
+	dChan := make(chan *mortgageDecision, 4)
 
 	for _, c := range customers {
-		wg.Add(1)
 		go func(c *customer.Customer) {
-			d := ms.decisionMaker(c)
-			// fmt.Println(d)
-
-			// lock to avoid data racing
-			mu.Lock()
-			decisions = append(decisions, d)
-			mu.Unlock()
-
-			wg.Done()
+			dChan <- ms.decisionMaker(c)
 		}(c)
 	}
-	wg.Wait()
+
+	for range customers {
+		d := <-dChan
+		fmt.Println(d)
+		ms.logger(d)
+		decisions = append(decisions, d)
+	}
 
 	return decisions
+}
+
+func (ms mortgageService) logger(c *mortgageDecision) {
+	f, err := os.OpenFile("logs/decisions.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	helpers.CheckErr(err, errors.ErrorFileOpening)
+	defer f.Close()
+
+	_, err = f.WriteString(c.String() + "\n")
+	helpers.CheckErr(err, errors.ErrorFileOpening)
 }
