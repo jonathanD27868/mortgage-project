@@ -3,8 +3,8 @@ package config
 import (
 	"encoding/json"
 	"log"
-	"mortgage-project/db"
 	"mortgage-project/enums"
+	"mortgage-project/internals/db"
 	"os"
 )
 

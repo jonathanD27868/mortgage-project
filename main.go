@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"mortgage-project/config"
 	"mortgage-project/customer"
 	"mortgage-project/globals"
 	"mortgage-project/house"
+	"mortgage-project/internals/config"
 	"mortgage-project/mortgage"
 	"runtime"
 )
@@ -16,7 +16,7 @@ func init() {
 	runtime.GOMAXPROCS(cpuUsed)
 	fmt.Printf("Number of CPUs (Total=%d - Used=%d) \n", maxCPU, cpuUsed)
 
-	globals.Config = config.New("config/config.env.json", "db/db-dev.env.json")
+	globals.Config = config.New("internals/config/config.env.json", "internals/db/db-dev.env.json")
 }
 
 func main() {

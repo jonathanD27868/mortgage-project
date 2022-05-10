@@ -3,8 +3,8 @@ package config
 import (
 	"database/sql"
 	"fmt"
-	"mortgage-project/db"
 	"mortgage-project/enums"
+	"mortgage-project/internals/db"
 )
 
 type Configuration struct {
