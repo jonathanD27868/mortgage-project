@@ -39,3 +39,59 @@ func (d daoPostgres) getCustomer(id int) *Customer {
 
 	return &c
 }
+
+func (d daoPostgres) getAllIDs() []int {
+	var (
+		db  = globals.Config.GetDB()
+		id  int
+		ids []int
+	)
+
+	query := `select id from customers order by id`
+	rows, err := db.Query(query)
+	checkErr(err, errors.ErrDBQueryExec)
+	defer rows.Close()
+
+	for rows.Next() {
+		rows.Scan(&id)
+		ids = append(ids, id)
+	}
+
+	return ids
+}
+
+func (d daoPostgres) getAllCustomers() []*Customer {
+	var (
+		db          = globals.Config.GetDB()
+		c           *Customer
+		cs          []*Customer
+		id          int
+		firstName   string
+		lastName    string
+		creditScore int
+		salary      int
+		downPayment int
+		houseID     int
+	)
+
+	query := `select * from customers order by id`
+	rows, err := db.Query(query)
+	checkErr(err, errors.ErrDBQueryExec)
+	defer rows.Close()
+
+	for rows.Next() {
+		rows.Scan(&id, &firstName, &lastName, &creditScore, &salary, &downPayment, &houseID)
+		c = &Customer{
+			id,
+			firstName,
+			lastName,
+			creditScore,
+			salary,
+			downPayment,
+			houseID,
+		}
+		cs = append(cs, c)
+	}
+
+	return cs
+}

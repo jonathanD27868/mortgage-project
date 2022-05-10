@@ -1,9 +1,9 @@
 package house
 
-type houseController struct {
+type HouseController struct {
 	service houseService
 }
 
-func (hc houseController) GetHouse(id int) *House {
+func (hc HouseController) GetHouse(id int) *House {
 	return hc.service.getHouse(id)
 }

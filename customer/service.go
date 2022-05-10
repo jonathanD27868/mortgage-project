@@ -4,6 +4,14 @@ type customerService struct {
 	repo customerRepo
 }
 
-func (sr customerService) getCustomer(id int) *Customer {
-	return sr.repo.getCustomer(id)
+func (cs customerService) getCustomer(id int) *Customer {
+	return cs.repo.getCustomer(id)
+}
+
+func (cs customerService) getAllIDs() []int {
+	return cs.repo.getAllIDs()
+}
+
+func (cs customerService) getAllCustomers() []*Customer {
+	return cs.repo.getAllCustomers()
 }

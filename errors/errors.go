@@ -1,5 +1,11 @@
 package errors
 
+import (
+	"mortgage-project/enums"
+	"mortgage-project/globals"
+	"strings"
+)
+
 var (
 	/*************************************************************************************************/
 	// Those are initialization errors
@@ -28,11 +34,19 @@ var (
 	/*************************************************************************************************/
 
 	/********* DB ERRORS *********/
-	ErrDBQueryExec ModelError = "Oups something went wrong (db query)"
+	ErrDBQueryExec ModelError = "Oups something went wrong: Query problem"
+
+	ErrDBRowFetching ModelError = "Oups something went wrong: Row fetching problem"
 )
 
 type ModelError string
 
 func (e ModelError) Error() string {
-	return string(e)
+	msgs := strings.SplitAfter(string(e), ":")
+
+	if globals.Config.GetMode() != enums.Dev.String() {
+		// return the first part of the error message without ":"
+		return msgs[0][:len(msgs[0])-1]
+	}
+	return msgs[1]
 }

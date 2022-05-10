@@ -7,11 +7,11 @@ import (
 	"mortgage-project/globals"
 )
 
-func GetHouseController() houseController {
+func GetHouseController() HouseController {
 	dao := daoFactory(globals.Config.GetDBEngine())
 	repo := houseRepo{dao}
 	service := houseService{repo}
-	controller := houseController{service}
+	controller := HouseController{service}
 	return controller
 }
 
