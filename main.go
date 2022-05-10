@@ -15,13 +15,13 @@ func init() {
 
 func main() {
 	hc := house.GetHouseController()
-	fmt.Println(hc.GetHouse(4))
+	// fmt.Println(hc.GetHouse(4))
 
 	cc := customer.GetCustomerController()
-	fmt.Println(cc.GetCustomer(3))
+	// fmt.Println(cc.GetCustomer(3))
 
 	mc := mortgage.GetMortgageController(cc, hc)
-	fmt.Println(mc.GetApprovalDecision(1))
+	// fmt.Println(mc.GetApprovalDecision(1))
 	fmt.Println(mc.GetApprovalDecisionAllCustomers())
 
 }

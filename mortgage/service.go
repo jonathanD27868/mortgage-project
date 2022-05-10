@@ -4,6 +4,7 @@ import (
 	"mortgage-project/customer"
 	"mortgage-project/enums"
 	"mortgage-project/house"
+	"sync"
 )
 
 type mortgageService struct {
@@ -49,10 +50,24 @@ func (ms mortgageService) decisionMaker(c *customer.Customer) *mortgageDecision 
 func (ms mortgageService) getApprovalDecisionAllCustomers() []*mortgageDecision {
 	customers := ms.c.GetAllCustomers()
 	var decisions []*mortgageDecision
+	var wg sync.WaitGroup
+	var mu sync.Mutex
 
 	for _, c := range customers {
-		d := ms.decisionMaker(c)
-		decisions = append(decisions, d)
+		wg.Add(1)
+		go func(c *customer.Customer) {
+			d := ms.decisionMaker(c)
+			// fmt.Println(d)
+
+			// lock to avoid data racing
+			mu.Lock()
+			decisions = append(decisions, d)
+			mu.Unlock()
+
+			wg.Done()
+		}(c)
 	}
+	wg.Wait()
+
 	return decisions
 }
