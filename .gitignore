@@ -1,3 +1,2 @@
-*.env.*
-**/*.env.*
+internals/db/*.env.*
 .DS_Store
