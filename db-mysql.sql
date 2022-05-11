@@ -1,7 +1,7 @@
-CREATE DATABASE IF NOT EXISTS mortgage_project;
-USE mortgage_project;
-CREATE USER IF NOT EXISTS jonathandb IDENTIFIED BY 'jonathandb';
-GRANT ALL ON mortgage_project.* TO jonathandb;
+-- CREATE DATABASE IF NOT EXISTS mortgage_project;
+-- USE mortgage_project;
+-- CREATE USER IF NOT EXISTS xxxxx IDENTIFIED BY 'xxxxx';
+-- GRANT ALL ON mortgage_project.* TO xxxxx;
 
 CREATE TABLE IF NOT EXISTS houses (
   id INT AUTO_INCREMENT PRIMARY KEY,
