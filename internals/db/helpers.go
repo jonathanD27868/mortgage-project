@@ -5,15 +5,16 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"mortgage-project/globals"
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 )
 
-func New(dbConfigFile string) DBConfig {
+func New() DBConfig {
 	var dbConfig DBConfig
-	dbConfigDTO := getDBConfig(dbConfigFile)
+	dbConfigDTO := getDBConfig()
 	dbConfig.DB = getConnection(dbConfigDTO)
 	dbConfig.Engine = dbConfigDTO.Engine
 	return dbConfig
@@ -33,7 +34,8 @@ func getConnection(dbConfig DBConfigDTO) *sql.DB {
 }
 
 // getDBConfig get db's config from JSON
-func getDBConfig(filename string) DBConfigDTO {
+func getDBConfig() DBConfigDTO {
+	filename := fmt.Sprintf("internals/db/db-%s.env.json", globals.Config.GetMode())
 	config := DBConfigDTO{}
 
 	file, err := os.Open(filename)
@@ -58,6 +60,8 @@ func getPostgresConn(db DBConfigDTO) *sql.DB {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	fmt.Println("Postgres DB's ready")
 	return conn
 }
 
@@ -68,5 +72,7 @@ func getMysqlConn(db DBConfigDTO) *sql.DB {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	fmt.Println("MySQL DB's ready")
 	return conn
 }

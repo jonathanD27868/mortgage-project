@@ -4,18 +4,18 @@ import (
 	"encoding/json"
 	"log"
 	"mortgage-project/enums"
-	"mortgage-project/internals/db"
 	"os"
 )
 
-func New(appConfigFile, dbConfigFile string) Configuration {
+func New() Configuration {
+	appConfigFile := "internals/config/config.env.json"
 	config := Configuration{}
 
 	// get global configs
 	config.AppConfig = NewAppConfig(appConfigFile)
 
 	// get db connection
-	config.DBConfig = db.New(dbConfigFile)
+	// config.DBConfig = db.New(dbConfigFile)
 
 	return config
 }
