@@ -3,8 +3,8 @@ package mortgage
 import (
 	"fmt"
 	"mortgage-project/customer"
+	"mortgage-project/customerrors"
 	"mortgage-project/enums"
-	"mortgage-project/errors"
 	"mortgage-project/helpers"
 	"mortgage-project/house"
 	"os"
@@ -72,10 +72,11 @@ func (ms mortgageService) getApprovalDecisionAllCustomers() []*mortgageDecision 
 }
 
 func (ms mortgageService) logger(c *mortgageDecision) {
-	f, err := os.OpenFile("logs/decisions.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	helpers.CheckErr(err, errors.ErrorFileOpening)
+	filename := "logs/decisions.txt"
+	f, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	helpers.CheckErr(err, customerrors.ErrorFileOpening, filename)
 	defer f.Close()
 
 	_, err = f.WriteString(c.String() + "\n")
-	helpers.CheckErr(err, errors.ErrorFileOpening)
+	helpers.CheckErr(err, customerrors.ErrorFileOpening, filename)
 }

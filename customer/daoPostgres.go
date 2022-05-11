@@ -1,7 +1,7 @@
 package customer
 
 import (
-	"mortgage-project/errors"
+	"mortgage-project/customerrors"
 	"mortgage-project/globals"
 	"mortgage-project/helpers"
 )
@@ -26,7 +26,7 @@ func (d daoPostgres) getCustomer(id int) *Customer {
 
 	err := db.QueryRow(query, id).
 		Scan(&firstName, &lastName, &creditScore, &salary, &downPayment, &houseID)
-	helpers.CheckErr(err, errors.ErrDBQueryExec)
+	helpers.CheckErr(err, customerrors.ErrDBQueryExec, query)
 
 	c := Customer{
 		id,
@@ -50,7 +50,7 @@ func (d daoPostgres) getAllIDs() []int {
 
 	query := `select id from customers order by id`
 	rows, err := db.Query(query)
-	helpers.CheckErr(err, errors.ErrDBQueryExec)
+	helpers.CheckErr(err, customerrors.ErrDBQueryExec, query)
 	defer rows.Close()
 
 	for rows.Next() {
@@ -77,7 +77,7 @@ func (d daoPostgres) getAllCustomers() []*Customer {
 
 	query := `select * from customers order by id`
 	rows, err := db.Query(query)
-	helpers.CheckErr(err, errors.ErrDBQueryExec)
+	helpers.CheckErr(err, customerrors.ErrDBQueryExec, query)
 	defer rows.Close()
 
 	for rows.Next() {

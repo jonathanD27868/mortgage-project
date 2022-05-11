@@ -1,7 +1,7 @@
 package house
 
 import (
-	"mortgage-project/errors"
+	"mortgage-project/customerrors"
 	"mortgage-project/globals"
 	"mortgage-project/helpers"
 )
@@ -20,7 +20,7 @@ func (d daoPostgres) getHouse(id int) *House {
 	query := `SELECT price, min_downpayment, property_tax, maintenance_fee FROM houses WHERE id=$1`
 
 	err := db.QueryRow(query, id).Scan(&price, &min_downpayment, &property_tax, &maintenance_fee)
-	helpers.CheckErr(err, errors.ErrDBQueryExec)
+	helpers.CheckErr(err, customerrors.ErrDBQueryExec, query)
 
 	h := House{
 		id,
