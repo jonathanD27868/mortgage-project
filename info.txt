@@ -1,0 +1,15 @@
+Format for env.json files:
+
+{
+  "mode": "dev",
+  "author": "john"
+}
+
+{
+  "engine": "mysql",
+  "server": "127.0.0.1",
+  "port": "3306",
+  "user": "xxxxx",
+  "password": "xxxxx",
+  "database": "xxxxx"
+}
