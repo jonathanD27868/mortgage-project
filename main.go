@@ -30,4 +30,5 @@ func main() {
 	// fmt.Println(mc.GetApprovalDecision(1))
 	fmt.Println(mc.GetApprovalDecisionAllCustomers())
 
+	defer globals.Config.GetDB().Close()
 }
